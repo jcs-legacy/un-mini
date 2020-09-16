@@ -41,12 +41,12 @@
 ;;; Entry
 
 (defun un-mini--enable ()
-  "Enable `un-mini-mode'."
+  "Enable `un-mini'."
   (add-hook 'minibuffer-setup-hook #'un-mini--minibuffer-setup)
   (add-hook 'minibuffer-exit-hook #'un-mini--minibuffer-exit))
 
 (defun un-mini--disable ()
-  "Disable `un-mini-mode'."
+  "Disable `un-mini'."
   (remove-hook 'minibuffer-setup-hook #'un-mini--minibuffer-setup)
   (remove-hook 'minibuffer-exit-hook #'un-mini--minibuffer-exit))
 
@@ -65,11 +65,11 @@
   (eq (selected-window) (minibuffer-window)))
 
 (defun un-mini--minibuffer-setup ()
-  "Calls when minibuffer setup."
+  "Call when minibuffer setup."
   (add-hook 'post-command-hook #'un-mini--post-command))
 
 (defun un-mini--minibuffer-exit ()
-  "Calls when minibuffer exit."
+  "Call when minibuffer exit."
   (remove-hook 'post-command-hook #'un-mini--post-command))
 
 (defun un-mini--post-command ()
