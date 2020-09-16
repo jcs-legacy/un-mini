@@ -8,7 +8,7 @@
 ;; Keyword: minibuffer
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.3"))
-;; URL: https://github.com/jcs090218/un-mini
+;; URL: https://github.com/jcs-elpa/un-mini
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -32,7 +32,18 @@
 
 ;;; Code:
 
+(defgroup un-mini nil
+  "Fill buffer so you don't see empty lines at the end."
+  :prefix "un-mini-"
+  :group 'tool
+  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/un-mini"))
 
+(define-minor-mode un-mini-mode
+  "Toggle un-mini mode on or off."
+  :group 'un-mini
+  :global t
+  :lighter " UN-MINI"
+  (if un-mini-mode (progn) (progn)))
 
 (provide 'un-mini)
 ;;; un-mini.el ends here
