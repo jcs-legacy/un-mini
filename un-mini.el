@@ -54,6 +54,11 @@
   :type 'list
   :group 'un-mini)
 
+(defcustom un-mini-before-abort-hook nil
+  "Hooks run before aborting minibuffer."
+  :type 'hook
+  :group 'un-mini)
+
 ;;; Entry
 
 (defun un-mini--enable ()
@@ -78,8 +83,12 @@
 
 (defun un-mini-quit-minibuffer ()
   "Quit minibuffer."
+  (run-hooks 'mini-before-abort-hook)
   ;; TODO: `top-level' is noisy, change to another function that are much quite
   ;; and also resolve recursive edit to minibuffer.
+  ;;
+  ;; Another issue is when user selecting another window, the newly selected
+  ;; window cannot be preserved.
   (top-level))
 
 (defun un-mini--in-minibuffer-window-p ()
