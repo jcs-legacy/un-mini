@@ -6,10 +6,14 @@
 
 * [How do I automatically close the minibuffer after it loses focus?](https://www.reddit.com/r/emacs/comments/4d8gvt/how_do_i_automatically_close_the_minibuffer_after/)
 
+Small package that close minibuffer automatically after it has loses focus.
+
 ## Usage
 
+You can enable this package by adding following code snippet to your configuration.
+
 ```
-M-x un-mini-mode
+(un-mini-mode 1)
 ```
 
 ## Contribution
