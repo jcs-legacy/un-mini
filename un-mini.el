@@ -38,6 +38,22 @@
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/un-mini"))
 
+(defcustom un-mini-mouse t
+  "Close minibuffer when using mouse."
+  :type 'boolean
+  :group 'un-mini)
+
+(defcustom un-mini-command t
+  "Close minibuffer when using command."
+  :type 'boolean
+  :group 'un-mini)
+
+(defcustom un-mini-abort-commands
+  '(right-click-context-click-menu)
+  "List of command that are not allow to be executed during minibuffer."
+  :type 'list
+  :group 'un-mini)
+
 ;;; Entry
 
 (defun un-mini--enable ()
@@ -60,22 +76,43 @@
 
 ;;; Core
 
+(defun un-mini-quit-minibuffer ()
+  "Quit minibuffer."
+  ;; TODO: `top-level' is noisy, change to another function that are much quite
+  ;; and also resolve recursive edit to minibuffer.
+  (top-level))
+
 (defun un-mini--in-minibuffer-window-p ()
   "Return non-nil if current window is minibuffer window."
   (eq (selected-window) (minibuffer-window)))
 
 (defun un-mini--minibuffer-setup ()
   "Call when minibuffer setup."
+  (add-hook 'pre-command-hook #'un-mini--pre-command)
   (add-hook 'post-command-hook #'un-mini--post-command))
 
 (defun un-mini--minibuffer-exit ()
   "Call when minibuffer exit."
+  (remove-hook 'pre-command-hook #'un-mini--pre-command)
   (remove-hook 'post-command-hook #'un-mini--post-command))
+
+(defun un-mini--close-p ()
+  "Return non-nil if valid to close minibuffer."
+  (let ((cmd (if this-command (symbol-name this-command) "")))
+    (cond ((and (not un-mini-mouse) (not un-mini-command)) nil)
+          ((and un-mini-mouse (string-match-p "mouse-" cmd)) t)
+          (un-mini-command t))))
+
+(defun un-mini--pre-command ()
+  "Global pre command during minibuffer activation."
+  (when (memq this-command un-mini-abort-commands)
+    (un-mini-quit-minibuffer)))
 
 (defun un-mini--post-command ()
   "Global post command during minibuffer activation."
-  (unless (un-mini--in-minibuffer-window-p)
-    (top-level)))
+  (when (and (not (un-mini--in-minibuffer-window-p))
+             (un-mini--close-p))
+    (un-mini-quit-minibuffer)))
 
 (provide 'un-mini)
 ;;; un-mini.el ends here
