@@ -7,7 +7,7 @@
 ;; Description: Automatically close minibuffer after if loses focus.
 ;; Keyword: minibuffer
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "25.1"))
 ;; URL: https://github.com/jcs-elpa/un-mini
 
 ;; This file is NOT part of GNU Emacs.
@@ -38,12 +38,64 @@
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/un-mini"))
 
+(defvar un-mini--this-command nil
+  "")
+
+;;; Entry
+
+(defun un-mini--enable ()
+  "Enable `un-mini-mode'."
+  (add-hook 'minibuffer-setup-hook #'un-mini--minibuffer-setup)
+  (add-hook 'minibuffer-exit-hook #'un-mini--minibuffer-exit))
+
+(defun un-mini--disable ()
+  "Disable `un-mini-mode'."
+  (remove-hook 'minibuffer-setup-hook #'un-mini--minibuffer-setup)
+  (remove-hook 'minibuffer-exit-hook #'un-mini--minibuffer-exit))
+
+;;;###autoload
 (define-minor-mode un-mini-mode
   "Toggle un-mini mode on or off."
   :group 'un-mini
   :global t
   :lighter " UN-MINI"
-  (if un-mini-mode (progn) (progn)))
+  (if un-mini-mode (un-mini--enable) (un-mini--disable)))
+
+;;; Core
+
+(defun un-mini--record-this-command ()
+  "Record current `this-command' value once."
+  (setq un-mini--this-command this-command))
+
+(defun un-mini--in-minibuffer-window-p ()
+  "Return non-nil if current window is minibuffer window."
+  (eq (selected-window) (minibuffer-window)))
+
+(defun un-mini--minibuffer-setup ()
+  "Calls when minibuffer setup."
+  (message "\f")
+  (message "setup")
+  (un-mini--record-this-command)
+  (message "un-mini--this-command: %s" un-mini--this-command)
+  ;;(setq un-mini--this-command )
+  (advice-add 'select-window :after #'un-mini--select-window))
+
+(defun un-mini--minibuffer-exit ()
+  "Calls when minibuffer exit."
+  (message "exit")
+  (advice-remove 'select-window #'un-mini--select-window))
+
+(defun un-mini--select-window (&rest _)
+  "Advice execute after `select-window' function."
+  (message "this-command: %s" this-command)
+  (message "un-mini--this-command: %s" un-mini--this-command)
+  (when (and this-command (not (eq un-mini--this-command this-command)))
+    (un-mini--record-this-command)
+    (message "record: %s" un-mini--this-command)
+    (unless (un-mini--in-minibuffer-window-p)
+      (message "close: %s" un-mini--this-command)
+      (top-level)
+      )))
 
 (provide 'un-mini)
 ;;; un-mini.el ends here
