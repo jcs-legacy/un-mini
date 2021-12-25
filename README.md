@@ -19,7 +19,11 @@ You can enable this package by adding following code snippet to your configurati
 
 * [How do I automatically close the minibuffer after it loses focus?](https://www.reddit.com/r/emacs/comments/4d8gvt/how_do_i_automatically_close_the_minibuffer_after/)
 
-## Contribution
+## Contribute
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Elisp styleguide](https://img.shields.io/badge/elisp-style%20guide-purple)](https://github.com/bbatsov/emacs-lisp-style-guide)
+[![Donate on paypal](https://img.shields.io/badge/paypal-donate-1?logo=paypal&color=blue)](https://www.paypal.me/jcs090218)
 
 If you would like to contribute to this project, you may either
 clone and make pull requests to this repository. Or you can
