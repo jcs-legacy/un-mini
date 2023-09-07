@@ -7,7 +7,6 @@
 
 (package-file "un-mini.el")
 
-
 (script "test" "echo \"Error: no test specified\" && exit 1")
 (source 'melpa)
 
