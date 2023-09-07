@@ -1,6 +1,6 @@
 ;;; un-mini.el --- Automatically close minibuffer after it loses focus  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  Shen, Jen-Chieh
+;; Copyright (C) 2020-2023  Shen, Jen-Chieh
 ;; Created date 2020-09-16 15:17:15
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
@@ -8,7 +8,7 @@
 ;; Keyword: minibuffer
 ;; Version: 0.2.1
 ;; Package-Requires: ((emacs "25.1"))
-;; URL: https://github.com/jcs-elpa/un-mini
+;; URL: https://github.com/jcs-legacy/un-mini
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -36,7 +36,7 @@
   "Fill buffer so you don't see empty lines at the end."
   :prefix "un-mini-"
   :group 'tool
-  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/un-mini"))
+  :link '(url-link :tag "Repository" "https://github.com/jcs-legacy/un-mini"))
 
 (defcustom un-mini-mouse t
   "Close minibuffer when using mouse."
