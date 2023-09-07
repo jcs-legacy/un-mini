@@ -1,29 +1,33 @@
-SHELL := /usr/bin/env bash
-
 EMACS ?= emacs
-CASK ?= cask
+EASK ?= eask
 
-PKG-FILES := un-mini.el
+.PHONY: clean checkdoc lint package install compile test
 
-TEST-FILES := $(shell ls test/un-mini-*.el)
+ci: clean package install compile test
 
-.PHONY: clean checkdoc lint build compile unix-test
+package:
+	@echo "Packaging..."
+	$(EASK) package
 
-ci: clean build compile
-
-build:
-	$(CASK) install
+install:
+	@echo "Installing..."
+	$(EASK) install
 
 compile:
 	@echo "Compiling..."
-	@$(CASK) $(EMACS) -Q --batch \
-		-L . \
-		--eval '(setq byte-compile-error-on-warn t)' \
-		-f batch-byte-compile $(PKG-FILES)
+	$(EASK) compile
 
-unix-test:
+test:
 	@echo "Testing..."
-	$(CASK) exec ert-runner -L . $(LOAD-TEST-FILES) -t '!no-win' -t '!org'
+	$(EASK) test ert ./test/*.el
+
+checkdoc:
+	@echo "Run checkdoc..."
+	$(EASK) lint checkdoc
+
+lint:
+	@echo "Run package-lint..."
+	$(EASK) lint package
 
 clean:
-	rm -rf .cask *.elc
+	$(EASK) clean-all
