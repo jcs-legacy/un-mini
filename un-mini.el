@@ -1,6 +1,6 @@
 ;;; un-mini.el --- Automatically close minibuffer after it loses focus  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020-2023  Shen, Jen-Chieh
+;; Copyright (C) 2020-2024  Shen, Jen-Chieh
 ;; Created date 2020-09-16 15:17:15
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
