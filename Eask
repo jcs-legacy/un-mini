@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "un-mini"
          "0.2.1"
          "Automatically close minibuffer after it loses focus")
